@@ -1,0 +1,4 @@
+void deleteNode(Node *node)
+{
+   
+}

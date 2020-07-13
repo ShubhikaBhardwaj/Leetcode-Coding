@@ -35,13 +35,15 @@ public:
             }
         }
 
-        vector<vector<int>> inDegree(N,(M,vector<int>()));
+        int inDegree [N][M];
 
         for(int i=0;i<N*M;i++)
         {
             for(int e:graph[i])
             inDegree[e.v]++;
         }
+
+
 
         int maxlen=0;
         vector<pair<int,int>>maxPath;
