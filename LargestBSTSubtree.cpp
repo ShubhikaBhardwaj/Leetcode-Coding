@@ -1,99 +1,83 @@
-#include <iostream>
-#include <stack>
-#include <vector>
-
-using namespace std;
-
-class Node
-{
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
 public:
-    int data;
-    vector<Node *> childs;
-
-    Node(int data)
+    class allSol
+    {   public:
+        int size;
+        bool isBST;
+        int smallEle;
+        int bigEle;
+     allSol()
+     {
+         size=0;
+         isBST=true;
+        smallEle=-1e8;
+        bigEle=1e8;
+     }
+     
+    allSol(int a,bool b,int x,int y)
     {
-        this->data = data;
+        size=a;
+        isBST=b;
+        smallEle=x;
+        bigEle=y;
+    }
+
+    };
+
+
+    allSol fun(TreeNode* root,int &maxSize)
+    {
+        if(root==NULL)
+        { return allSol(0,true,-1e8,1e8);
+        }
+        
+        if(root->left==NULL&&root->right==NULL)
+        return allSol(1,true,root->val,root->val); 
+
+        allSol p;
+
+        allSol l=root->left?fun(root->left,maxSize):allSol(0,true,-1e8,1e8);
+        allSol r=root->right?fun(root->right,maxSize):allSol(0,true,-1e8,1e8);
+
+
+        if(root->val>l.bigEle&&root->val<=r.smallEle&&l.isBST==true&&r.isBST==true)
+           {p.isBST=true;
+            p.size=l.size+r.size+1;
+            p.bigEle=max(root->val,max(l.bigEle,r.bigEle));
+            p.smallEle=min(root->val,min(l.smallEle,r.smallEle));
+           }
+
+        else
+        {
+            p.isBST=false;
+            p.size=max(1,max(l.size,r.size));
+            p.bigEle=root->val;
+            p.smallEle=root->val;
+        }
+           
+       maxSize=max(maxSize,p.size);
+       return p;
+     
+    }
+
+    int largestBSTSubtree(TreeNode* root) {
+      if(root==NULL)return 0;
+    
+      int maxSize=-1e8;
+      allSol p=fun(root,maxSize);
+    
+     return max(maxSize,p.size);
+        
     }
 };
-
-Node *createTree(vector<int> &arr)
-{
-    stack<Node *> st;
-    for (int i = 0; i < arr.size() - 1; i++)
-    {
-        int ele = arr[i];
-        if (ele == -1)
-        {
-            Node *node = st.top();
-            st.pop();
-            st.top()->childs.push_back(node);
-        }
-        else
-            st.push(new Node(ele));
-    }
-
-    return st.top();
-}
-
-void preOrder(Node *node)
-{
-    cout << node->data << " ";
-    for (Node *child : node->childs)
-        preOrder(child);
-}
-
-void postOrder(Node *node)
-{
-    for (Node *child : node->childs)
-        postOrder(child);
-    cout << node->data << " ";
-}
-
-int height(Node *node)
-{
-    int h = -1;
-    for (Node *child : node->childs)
-        h = max(h, height(child));
-
-    return h + 1;
-}
-
-int size(Node *node)
-{
-    int sz = 0;
-    for (Node *child : node->childs)
-        sz += size(child);
-
-    return sz + 1;
-}
-
-void display(Node* node){
-
-}
-
-bool find(Node* node,int data){
-
-}
-
-void levelOrderLlineWise(Node* node){
-
-}
-
-void nodeToRootPath(Node* node,int data){
-
-}
-
-void distanceBetweenTwoNodes(Node* node,int d1,int d2){
-
-}
-
-void solve()
-{
-    vector<int> arr{10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 100, -1, 110, -1, -1, 90, -1, -1, 40, 120, 140, -1, 150, -1, -1, -1, -1};
-}
-
-int main()
-{
-    solve();
-    return 0;
-}

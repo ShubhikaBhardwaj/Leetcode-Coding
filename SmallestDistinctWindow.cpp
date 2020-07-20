@@ -1,8 +1,9 @@
 #include <iostream>
 #include<string>
+#include<climits>
 using namespace std;
 
-string fun(string s)
+int fun(string s)
 {
    int dis_char=0;
    int arr[256]={0};
@@ -48,8 +49,8 @@ string fun(string s)
 
    }
    
-   return s.substr(startIndex,maxlen);
-
+   cout<<s.substr(startIndex,maxlen);
+   return maxlen;
 }
 
 
@@ -63,7 +64,7 @@ int main() {
         string s;
         cin>>s;
         
-        string ans=fun(s);
+        int ans=fun(s);
         cout<<ans<<endl;
 
     }

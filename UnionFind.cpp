@@ -58,10 +58,10 @@ int findPar(int u)
 
 void merge(int a,int b)
 {
-    int p1=findPar(a);
-    int p2=findPar(b);
+//     int p1=findPar(a);
+//     int p2=findPar(b);
 
-    if(p1==p2)return;
+//     if(p1==p2)return;
 
     if(size[a]>=size[b])
     { par[b]=a;
@@ -103,4 +103,3 @@ void UnionFind(int n, vector<vector<int>> &edges)
 
     display();
 }
-© 2020 GitHu

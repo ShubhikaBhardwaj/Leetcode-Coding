@@ -1,4 +1,6 @@
 //Graph theory
+//Dijkstra -> single src min weight path to all vertices
+//Concept-> BFS+Priority Queue
 
 #include<vector>
 #include<iostream>
@@ -24,17 +26,15 @@ void addEdge(vector<vector<Edge>> &graph,int u,int v,int w)
 }
 
 
-class DPair
+class DPair //Dijkstra Pair
 { public:
     int u;
-    int par;
     int w;
     int wsf; //weight so far
     
-  DPair(int a,int b,int c,int d)
+  DPair(int a,int c,int d)
   {
       u=a;
-      par=b;
       w=c;
       wsf=d;
   }
@@ -65,37 +65,31 @@ void display( vector<vector<Edge>> &graph)
 
 void dijkstra(int src,int N,vector<vector<Edge>> &graph)
 {
-  priority_queue<DPair,vector<DPair>,compareTo> pq;
-  pq.push({src,-1,0,0});
+    vector<int>dist(N,1e8); //min Distance
+    dist[src]=0;
 
-  vector<vector<Edge>> ST(N,vector<Edge>());
+    priority_queue<DPair,vector<DPair>,compareTo> pq;
+    pq.push(DPair(src,0,0));
 
-  vector<bool> vis(N,false);
-  int vertices=N;
-  int edges=0;
-  while(edges<vertices-1)
-  {
-      DPair rvtx=pq.top();
-      pq.pop();
+    while(pq.size()!=0)
+    {
+        DPair rm=pq.top();
+        pq.pop();
 
-      if(vis[rvtx.u]) //already visited->cycle
-      continue;
+        for(Edge e:graph[u])
+        {
+            if(rm.wsf+e.w<dist[e.v])
+            {
+                dist[e.v]=rm.wsf+e.w;
+                pq.push(DPair(e.v,e.w,rm.wsf+e.w));
+            }
+        }
+    }
 
-      vis[rvtx.u]=true;
-      addEdge(ST,rvtx.par,rvtx.u,rvtx.w);
-      edges++;
+    for(int i=0;i<N;i++)
+    cout<<dist[i]<<" ";
 
-      for(Edge e:graph[rvtx.u])
-      {
-          if(!vis[e.v])
-          {
-              pq.push({e.v,rvtx.u,e.w,rvtx.wsf+e.w});
-          }
-      }
-
-  }
-
-  display(ST);
+    cout<<endl;
 
 }
 

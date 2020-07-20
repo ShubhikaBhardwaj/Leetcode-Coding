@@ -32,7 +32,7 @@ long long minCostToSupplyWater(int n, vector<int>& wells, vector<vector<int>>& p
 
        for(vector<int> &p:pipes)
        { 
-           vector<int>p=pipes[i];
+          // vector<int>p=pipes[i];
            
                int p1=findPar(p[0]);
                int p2=findPar(p[1]);
